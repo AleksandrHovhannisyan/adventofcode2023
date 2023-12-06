@@ -41,7 +41,7 @@ int main() {
 
         // Pre-process the string before searching for digits
         std::cout << "Line before replacements: " << line << "\n";
-        for (auto regexMapping : regexes) {
+        for (const auto& regexMapping : regexes) {
             auto regex = regexMapping.first;
             auto replacement = regexMapping.second;
             line = std::regex_replace(line, regex, replacement);
