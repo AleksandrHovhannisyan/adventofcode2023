@@ -3,13 +3,16 @@ CFLAGS = -std=c++20 -Wall
 
 .PHONY: all clean
 
-all: 01 02
+all: utils.o 01 02
 
-01: 01.cpp
-	$(CC) $(CFLAGS) -o 01 01.cpp
+utils.o: ../utils.h ../utils.cpp
+	$(CC) $(CFLAGS) -c ../utils.cpp
 
-02: 02.cpp
-	$(CC) $(CFLAGS) -o 02 02.cpp
+01: 01.cpp utils.o
+	$(CC) $(CFLAGS) -o 01 01.cpp utils.o
+
+02: 02.cpp utils.o
+	$(CC) $(CFLAGS) -o 02 02.cpp utils.o
 
 clean:
-	rm -f 01 02
+	rm -f 01 02 *.o

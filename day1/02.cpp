@@ -1,14 +1,12 @@
 #include <cctype>
 #include <iostream>
-#include <fstream>
 #include <regex>
 #include <string>
 #include <utility>
+#include "../utils.h"
 
 int main() {
-    std::ifstream inputFile;
-    inputFile.open("./input.txt");
-
+    std::vector<std::string> lines = getInputLines("./input.txt");
     int sum = 0;
 
     std::vector<std::pair<std::regex, std::string>> regexes = {
@@ -34,8 +32,7 @@ int main() {
         {std::regex ("nine"),"9"},
     };
 
-    std::string line { "" };
-    while (std::getline(inputFile, line)) {
+    for (auto line : lines) {
         int firstDigit = -1;
         int lastDigit = -1;
 
@@ -64,6 +61,5 @@ int main() {
     }
 
     std::cout << "Answer: " << sum << std::endl;
-    inputFile.close();
     return 0;
 }

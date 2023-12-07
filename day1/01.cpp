@@ -1,15 +1,15 @@
 #include <cctype>
 #include <iostream>
-#include <fstream>
+#include <string>
+#include <vector>
+#include "../utils.h"
 
 int main() {
     int sum = 0;
 
-	std::ifstream inputFile;
-	inputFile.open("./input.txt");
+    std::vector<std::string> lines = getInputLines("./input.txt");
 
-	std::string line { "" };
-	while (std::getline(inputFile, line)) {
+    for (const auto& line : lines) {
         int firstDigit = -1;
         int lastDigit = -1;
 
@@ -26,9 +26,8 @@ int main() {
         }
         // Instead of concatenating the two digits and converting to an int
         sum += firstDigit * 10 + lastDigit;
-	}
+    }
 
-	std::cout << "Answer: " << sum << std::endl;
-	inputFile.close();
-	return 0;
+    std::cout << "Answer: " << sum << std::endl;
+    return 0;
 }

@@ -3,10 +3,14 @@
 #include <numeric>
 #include <sstream>
 #include <iostream>
-#include <fstream>
 #include <regex>
 #include <string>
 #include <utility>
+#include "../utils.h"
+
+std::regex REGEX_RED { "(\\d+) red" };
+std::regex REGEX_GREEN { "(\\d+) green" };
+std::regex REGEX_BLUE { "(\\d+) blue" };
 
 std::vector<int> getCubeCounts(std::string game, std::regex pattern) {
     std::vector<int> cubeCounts;
@@ -26,19 +30,10 @@ std::vector<int> getCubeCounts(std::string game, std::regex pattern) {
     return cubeCounts;
 };
 
-std::vector<std::string> getLinesOfText(std::ifstream& inputFile) {
-    std::vector<std::string> lines { };
-    std::string line { "" };
-    while (std::getline(inputFile, line)) {
-        lines.push_back(line);
-    }
-    return lines;
-};
-
 int getPower(std::string game) {
-    auto redCubes = getCubeCounts(game, std::regex { "(\\d+) red" });
-    auto greenCubes = getCubeCounts(game, std::regex { "(\\d+) green" });
-    auto blueCubes = getCubeCounts(game, std::regex { "(\\d+) blue" });
+    auto redCubes = getCubeCounts(game, REGEX_RED);
+    auto greenCubes = getCubeCounts(game, REGEX_GREEN);
+    auto blueCubes = getCubeCounts(game, REGEX_BLUE);
     
     auto minRedCubes = *std::max_element(redCubes.begin(), redCubes.end());
     auto minGreenCubes = *std::max_element(greenCubes.begin(), greenCubes.end());
@@ -47,14 +42,8 @@ int getPower(std::string game) {
 };
 
 int main() {
-    std::ifstream inputFile;
-    inputFile.open("./input.txt");
-    std::vector<std::string> lines = getLinesOfText(inputFile);
-    int powerSum = 0;
-    for (const auto& game : lines) {
-        powerSum += getPower(game);
-    }
-    std::cout << "Answer: " << powerSum << std::endl;
-    inputFile.close();
+    std::vector<std::string> games = getInputLines("./input.txt");
+    int sum = std::accumulate(games.begin(), games.end(), 0, [](int sum, const std::string& game) { return sum + getPower(game);});
+    std::cout << "Answer: " << sum << std::endl;
     return 0;
 }

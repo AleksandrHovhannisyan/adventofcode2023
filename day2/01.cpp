@@ -1,10 +1,10 @@
 #include <cctype>
 #include <sstream>
 #include <iostream>
-#include <fstream>
 #include <regex>
 #include <string>
 #include <utility>
+#include "../utils.h"
 
 struct Cube {
     std::regex pattern;
@@ -49,20 +49,8 @@ bool isGamePossible(std::string game) {
     return isPossible;
 };
 
-std::vector<std::string> getLinesOfText(std::ifstream& inputFile) {
-    std::vector<std::string> lines { };
-    std::string line { "" };
-    while (std::getline(inputFile, line)) {
-        lines.push_back(line);
-    }
-    return lines;
-};
-
 int main() {
-    std::ifstream inputFile;
-    inputFile.open("./input.txt");
-    std::vector<std::string> lines = getLinesOfText(inputFile);
-
+    std::vector<std::string> lines = getInputLines("./input.txt");
     int sumOfPossibleGameIds = 0;
     int gameId = 1;
 
@@ -74,6 +62,5 @@ int main() {
     }
 
     std::cout << "Answer: " << sumOfPossibleGameIds << std::endl;
-    inputFile.close();
     return 0;
 }
