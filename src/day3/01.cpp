@@ -35,12 +35,10 @@ bool hasNeighboringSymbol(const std::vector<std::string>& input, size_t rowIndex
         if (cell.rowIndex >= 0 && cell.rowIndex < numRows && cell.columnIndex >= 0 && cell.columnIndex < numColumns) {
             auto neighborCharacter = input[cell.rowIndex][cell.columnIndex];
             if (neighborCharacter != SYMBOL_EMPTY && !std::isdigit(neighborCharacter)) {
-                //std::cout << "Found neighboring symbol (" << neighborCharacter << ") at [" << cell.rowIndex << ", " << cell.columnIndex << "]\n";
                 return true;
             }
         }
     }
-    //std::cout << "No neighboring symbols found.\n";
     return false;
 }
 
@@ -56,22 +54,17 @@ int main() {
 
         for (size_t columnIndex = 0; columnIndex < line.length(); columnIndex++) {
             auto character = line[columnIndex];
-            //std::cout << "Checking " << character << " at [" << rowIndex << ", " << columnIndex << "]\n";
             if (std::isdigit(character)) {
                 partString += character;
-                //std::cout << character << " is a digit.\n";
                 // Keep track of this as we look at every digit; short-circuit if we already set it to true
                 if (!isValidPartNumber && hasNeighboringSymbol(lines, rowIndex, columnIndex)) {
                     isValidPartNumber = true;
                 }
-                //std::cout << "Number so far: " << partString << "\n";
             } else {
                 // We assembled a part number
                 if (isValidPartNumber && partString.size()) {
                     int partNumber = std::stoi(partString);
                     partNumberSum += partNumber;
-                    //std::cout << "Found part number: " << partNumber << "\n";
-                    //std::cout << "Sum so far: " << partNumberSum << "\n\n";
                 }
                 // Reset for next number
                 partString = "";
@@ -81,6 +74,5 @@ int main() {
     }
 
     std::cout << "Answer: " << partNumberSum << std::endl;
-
     return 0;
 }
